@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">My Calculadora</string>
+    <string name="text_zero">0</string>
+    <string name="text_um">1</string>
+    <string name="text_dois">2</string>
+    <string name="text_tres">3</string>
+    <string name="text_quatro">4</string>
+    <string name="text_cinco">5</string>
+    <string name="text_seis">6</string>
+    <string name="text_sete">7</string>
+    <string name="text_oito">8</string>
+    <string name="text_nove">9</string>
+    <string name="text_mais">+</string>
+    <string name="text_menos">-</string>
+    <string name="text_vezes">×</string>
+    <string name="text_dividir">÷</string>
+    <string name="text_igual">=</string>
+    <string name="text_apagar">C</string>
+    <string name="text_result">0</string>
+</resources>
