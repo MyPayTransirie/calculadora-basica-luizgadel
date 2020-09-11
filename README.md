@@ -43,3 +43,7 @@ Explique de forma resumida as dificuldades que teve e como resolveu.
    - Resolvi fazendo X, Y e Z...
 2. **Avaliação de expressão**
    - Resolvi implementar minha própria e por não conhecer Kotlin demorei bastante...
+3. **Problema em algumas funções da Calculadora**
+   - Algumas funções não funcionam ou não são impressas corretamente no textView secundário. Ex.: 
+   - A soma de um resultado com uma nova parcial não é impressa corretamente.
+   - Apertar 'igual' em sequência não repete a última operação feita, em vez disso, apenas dobra o valor do resultado.
