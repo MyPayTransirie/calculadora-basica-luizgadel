@@ -2,6 +2,7 @@ package com.example.mycalculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 enum class Operacao(val simbolo: String) {
@@ -13,13 +14,19 @@ enum class Operacao(val simbolo: String) {
     override fun toString() = simbolo
 }
 
+enum class TipoEntrada {
+    NUMERAL,
+    OPERADOR,
+    RESULT_TOTAL
+}
+
 class MainActivity : AppCompatActivity() {
 
-    var resultado: Int = 0
     var ultOperacao: Operacao = Operacao.SOMAR
+    var ultEntrada: TipoEntrada = TipoEntrada.NUMERAL
 
-    var entradaTemResultado: Boolean = true
-    var numEntrada: Int = 0
+    var ultResult: Int = 0
+    var numPrincipal: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,52 +49,103 @@ class MainActivity : AppCompatActivity() {
         btnDividir.setOnClickListener { validaEntrada(Operacao.DIVIDIR) }
 
         btnIgual.setOnClickListener {
-            textSecundario.text = ""
-            calcula()
+            if (ultEntrada == TipoEntrada.RESULT_TOTAL) {
+                textSecundario.text = "$ultResult $ultOperacao"
+            }
+            textSecundario.text = "${textSecundario.text} $numPrincipal ="
+            calculaOperacaoAnterior()
+
+            ultEntrada = TipoEntrada.RESULT_TOTAL
+            //textlog4.text = "RESULT_TOTAL"
         }
 
         btnApagar.setOnClickListener {
             textSecundario.text = ""
             textPrincipal.text = ""
-            numEntrada = 0
-            resultado = 0
             ultOperacao = Operacao.SOMAR
+            ultEntrada = TipoEntrada.NUMERAL
+
+            numPrincipal = 0
+            ultResult = 0
         }
     }
 
-    fun calcula() {
-
-        resultado = when (ultOperacao) {
-            Operacao.DIVIDIR -> resultado / numEntrada
-            Operacao.MULTIPLICAR -> resultado * numEntrada
-            Operacao.DIMINUIR -> resultado - numEntrada
-            Operacao.SOMAR -> resultado + numEntrada
-        }
-
-        numEntrada = resultado
-        textPrincipal.text = numEntrada.toString()
-        entradaTemResultado = true
-    }
-
+    /*
+    * Valida a entrada atual se ela for inteiro
+    * - Se a entrada anterior foi um NUMERAL
+    * --- Transforma o valor do textPrincipal em uma dezena e soma com a entrada atual
+    * - Senão
+    * --- Sobreescreve o numPrincipal com a entrada atual
+    * --- Redefine a última entrada como NUMERAL
+    * - Redefine o textPrincipal
+    */
     fun validaEntrada(num: Int) {
-        if (entradaTemResultado) {
-            numEntrada = num
-            entradaTemResultado = false
-        }
-        else numEntrada = numEntrada*10 + num
+        //textlog4.text = "$num"
+        if (ultEntrada == TipoEntrada.NUMERAL)
+            numPrincipal = numPrincipal * 10 + num
+        else {
+            numPrincipal = num
+            ultEntrada = TipoEntrada.NUMERAL
 
-        textPrincipal.text = numEntrada.toString()
+            //textlog4.text = "NUMERAL"
+        }
+        //textlog8.text = "$numPrincipal"
+
+        textPrincipal.text = numPrincipal.toString()
     }
 
+    /*
+    * Valida a entrada atual se ela for uma operação
+    * - Se a entrada anterior havia também sido um OPERADOR:
+    * --- Apaga o operador antigo da fórmula
+    * - Senão
+    * --- Se a entrada anterior havia sido um resultado total:
+    * ----- Torna esse resultado o 1° operando na fórmula
+    * --- Senão, se a entrada anterior havia sido um numeral:
+    * ----- Calcula a operação anterior
+    * --- Redefine a entrada anterior como Operador
+    * - Guarda a entrada atual como último operador
+    * - Adiciona o utltimo operador como operador à fórmula
+    */
     fun validaEntrada(op: Operacao) {
-        if (entradaTemResultado)
-            textSecundario.text = "${textSecundario.text.dropLast(2)} $op"
+        if (ultEntrada == TipoEntrada.OPERADOR)
+            textSecundario.text = textSecundario.text.dropLast(2)
         else {
-            textSecundario.text = "${textSecundario.text} $numEntrada $op"
+            if (ultEntrada == TipoEntrada.RESULT_TOTAL)
+                textSecundario.text = "$ultResult"
+            else {
+                textSecundario.text = "${textSecundario.text} $numPrincipal"
+                calculaOperacaoAnterior()
+            }
 
-            calcula()
+            ultEntrada = TipoEntrada.OPERADOR
+            //textlog2.text = "OPERADOR"
         }
 
         ultOperacao = op
+        //textlog4.text = "$op"
+        textSecundario.text = "${textSecundario.text} $ultOperacao"
+    }
+
+    /*
+    * Calcula a última operação
+    * - Verifica qual o tipo da última operação e sobrescreve o numPrincipal com o resultado
+    * - Escreve o numPrincipal no textPrincipal
+    *
+    */
+    fun calculaOperacaoAnterior() {
+        if (ultOperacao == Operacao.DIVIDIR && numPrincipal == 0)
+            Toast.makeText(this, "Não é possível dividir por 0! Digite outro valor.", Toast.LENGTH_SHORT).show()
+        else {
+            ultResult = when (ultOperacao) {
+                Operacao.DIVIDIR -> ultResult / numPrincipal
+                Operacao.MULTIPLICAR -> ultResult * numPrincipal
+                Operacao.DIMINUIR -> ultResult - numPrincipal
+                Operacao.SOMAR -> ultResult + numPrincipal
+            }
+
+            //textlog6.text = "$ultResult"
+            textPrincipal.text = ultResult.toString()
+        }
     }
 }

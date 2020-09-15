@@ -28,8 +28,8 @@ Abaixo segue alguns passos sugeridos para criar a aplicação:
 |   1. Projeto            | **sim** |
 |   2. Layout             | **sim** |
 |   3. Button Listeners   | **sim** |
-|   4. Avaliar Expressão  | **não** |
-|   5. Alertar inválido   | **não** |
+|   4. Avaliar Expressão  | **som** |
+|   5. Alertar inválido   | **sim** |
 
 ----------
 ## Dificuldades
@@ -38,12 +38,13 @@ Explique de forma resumida as dificuldades que teve e como resolveu.
 
 > Escreva: "não tive dificuldades" se for o caso e apague o resto
 
-1. **Importar biblioteca X**
-   - Não consegui importar a biblioteca X por conta disso e daquilo.
-   - Resolvi fazendo X, Y e Z...
-2. **Avaliação de expressão**
-   - Resolvi implementar minha própria e por não conhecer Kotlin demorei bastante...
-3. **Problema em algumas funções da Calculadora**
-   - Algumas funções não funcionam ou não são impressas corretamente no textView secundário. Ex.: 
-   - A soma de um resultado com uma nova parcial não é impressa corretamente.
-   - Apertar 'igual' em sequência não repete a última operação feita, em vez disso, apenas dobra o valor do resultado.
+1. **Tive problemas com alguams funções da calculadora** (RESOLVIDO)
+	- Algumas funções não funcionavam ou não eram impressas corretamente no textView secundário. Ex.: 
+		1. A soma de um resultado com uma nova parcial não é impressa corretamente.
+   		2. Apertar 'igual' em sequência não repete a última operação feita, em vez disso, apenas dobra o valor do resultado.
+	- Resolvi usando TextViews de log, mostrando o valor das variáveis - são 4 - a cada ação e fazendo as correções no código.
+	- Foi a solução que veio na minha cabeça, mas demorei uns dias triste sem saber o que fazer até pensar nela :cry:
+	- Na próxima vez, vou usar uma ferramenta de debug. Vai ser melhor do que posicionar os textviews, altualizar o valor deles a cada ação e correr o risco de piorar ainda mais código...
+2. **Há 1 forma inválida**
+	- A divisão por 0 é a única forma de entrada inválida.
+		- Uma mensagem Toast aparece alertando o problema, mas depois disso as entradas seguintes não funcionam direito.

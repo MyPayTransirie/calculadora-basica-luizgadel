@@ -17,4 +17,9 @@
     <string name="text_igual">=</string>
     <string name="text_apagar">C</string>
     <string name="text_result">0</string>
+
+    <!--string name="textlog1">ultEntrada</string>
+    <string name="textlog2">ultOperacao</string>
+    <string name="textlog3">ultResult</string>
+    <string name="textlog4">numPrincipal</string-->
 </resources>
